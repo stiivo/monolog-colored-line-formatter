@@ -60,10 +60,6 @@ class ColoredLineFormatter extends \Monolog\Formatter\LineFormatter
         // Get the Color Scheme
         $colorScheme = $this->getColorScheme();
 
-        if ($record instanceof \Monolog\LogRecord) {
-            return $colorScheme->getColorizeString($record->level) . trim(parent::format($record->toArray())) . $colorScheme->getResetString() . "\n";
-        }
-
-        return $colorScheme->getColorizeString($record['level']) . trim(parent::format($record)) . $colorScheme->getResetString() . "\n";
+        return $colorScheme->getColorizeString($record->level->value) . trim(parent::format($record)) . $colorScheme->getResetString() . "\n";
     }
 }

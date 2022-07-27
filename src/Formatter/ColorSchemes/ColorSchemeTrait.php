@@ -35,7 +35,13 @@ trait ColorSchemeTrait
     public function setColorizeArray(array $colorScheme)
     {
         // Only store entries that exist as Monolog\Logger levels
-        $allowedLogLevels = array_values(\Monolog\Logger::getLevels());
+
+        if (class_exists("\Monolog\Level")) {
+            $allowedLogLevels = array_combine(\Monolog\Level::VALUES, \Monolog\Level::NAMES);
+        } else {
+            $allowedLogLevels = array_values(\Monolog\Logger::getLevels());
+        }
+
         $colorScheme = array_intersect_key($colorScheme, array_flip($allowedLogLevels));
 
         // Store the filtered colorScheme
@@ -53,7 +59,7 @@ trait ColorSchemeTrait
 
     /**
      * Get the Color Scheme String for the given Level
-     * @param  int    $level The Logger Level
+     * @param int $level The Logger Level
      * @return string The Color Scheme String
      */
     public function getColorizeString($level)
